@@ -1,2 +1,5 @@
-frozenset([1,3,3])
-print(frozenset([1,3,3]))
+a = 12
+b = 12
+
+print(a == b)
+print(a is b)

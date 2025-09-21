@@ -7,31 +7,31 @@ This repository provides a structured **FastAPI Development Roadmap** for studen
 ## Modules Overview
 
 ### **Module 1: Foundations**
-1. Python Basics (Recap / Bridge Session)
+1. **Python Basics (Recap / Bridge Session)**
     - Data types, functions, classes, OOP
     - Virtual environments (venv)
     - Python typing (int, str, List, Dict, Optional)
 
-2. APIs & Web Basics
+2. **APIs & Web Basics**
     - API & HTTP fundamentals (methods, status codes)
 
 ### **Module 2: Introduction to FastAPI**
-1. Getting Started
+1. **Getting Started**
     - Install FastAPI & Uvicorn
     - First app (`Hello World`)
     - Path & Query parameters
     - Request body with Pydantic
 
-2. Interactive API Docs
+2. **Interactive API Docs**
     - Interactive API docs (Swagger, ReDoc)
 
 ### **Module 3: Core FastAPI Concepts**
-1. Request Handling
+1. **Request Handling**
     - Path, Query, Body, Form, Header, Cookie parameters
     - Dependency Injection system in FastAPI
-2. Response Handling
+2. **Response Handling**
     - Response models & validation
-3. Error Handling
+3. **Error Handling**
     - Error handling with `HTTPException`
 
 ### **Module 4: Database Integration**
@@ -73,7 +73,7 @@ This repository provides a structured **FastAPI Development Roadmap** for studen
 
 ---
 
-## Capstone Project Ideas
+## Capstone Projects
 - E-commerce API
 - Blog Platform with JWT Auth
 - Real-time Chat App (WebSockets)

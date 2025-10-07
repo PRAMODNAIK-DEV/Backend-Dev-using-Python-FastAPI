@@ -1,22 +1,29 @@
+
 class Student:
-    college_name = "ROOKIESWORLD"
+    college = "ROOKIES"
     
-    def __init__(self, name, marks):
+    def __init__(self, name, age, marks):
         self.name = name
+        self.age = age
         self.marks = marks
     
-    def display(self):
-        return f"Name: {self.name} Marks: {self.marks}"
+    def printDetails(self):
+        return f"Name: {self.name}, Age: {self.age}, Marks: {self.marks}, College: {self.college}"
+
+    def printMarks(self):
+        return f"Marks: {self.marks}"
     
     @classmethod
-    def change_college(self, new_college_name):
-        self.college_name = new_college_name
+    def changeCollege(cls, new_college):
+        cls.college = new_college
     
     @staticmethod
-    def is_adult(age):
-        return age > 18
-        
+    def add(a, b):
+        return a + b
+    
+    
+# Instantiation - Creating an Object/Instance
+pramod = Student("Pramod", 24, 85)
 
-s1 = Student("Adam", "99.99")
-Student.change_college("Pramod INstitution")
-print(Student.is_adult(12))
+print(Student.add(2,4))
+print(pramod.add(5,6))

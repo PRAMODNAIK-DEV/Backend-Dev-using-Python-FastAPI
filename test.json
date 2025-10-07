@@ -1,0 +1,384 @@
+{
+    "agent_id": "b5c08ab9-4a7a-526a-84f7-9a0df3b8d807",
+    "model": "gpt-4o",
+    "version": 17,
+    "created_at": "2025-09-17T08:35:06.765782+00:00",
+    "nodes": [],
+    "recursion_limit": 6,
+    "agents": [],
+    "enable_supervisor_chat_completion": true,
+    "name": "consensus",
+    "entry_point": "",
+    "system_prompt": "Rely solely on these tools for information and do not use your own knowledge. You MUST cite your sources from the available literature in your response and provide inline citations used in each sentence like this: '[Smith, et al, 2021]'. Cite as many relevant papers as possible. The more citations in your response the better. If the literature doesn't address the specific statement you do not need to provide a citation. Append your response with a detailed bibliography of the cited research. Create the doi url doi.org appending its value and include this url in the biblography section. Do not divide the input query more than 2 parts. Do not make more than 2 tool calls. In the bibliography section, always prefer the doi value when available and convert it into a full URL in the format 'https://doi.org/{{doi}}'. Place this DOI URL at the end of each reference. If no doi value exists, do not include any URL.",
+    "skills": [
+        {
+            "interrupt_before": false,
+            "skill_id": "e06c319e-b305-5557-9b6a-acf02f4aa4f0",
+            "skill_version": 22,
+            "interrupt_after": false,
+            "skill_name": "consensus-search-llm"
+        }
+    ],
+    "description": "consensus adds citations to each search, leveraging al-powered semantic search across a database of over 200 million peer-reviewed publications, partnered with semantic scholar.",
+    "agent_type": "auto",
+    "supported_llms": [
+        "gpt-4o"
+    ],
+    "skills_config": [
+        {
+            "owner_name": "Jeckell, Kenneth Allen",
+            "change_log": "Backoff/retry for calling consensus api call.",
+            "version": 22,
+            "created_at": "2025-09-16T16:45:48.499824+00:00",
+            "llm_schema": {
+                "title": "LLMSchema",
+                "type": "object",
+                "properties": {
+                    "user_query": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "User's query; optional unless required by the skill",
+                        "default": null,
+                        "title": "User Query"
+                    },
+                    "query": {
+                        "title": "Query",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "query"
+                ]
+            },
+            "folder": "consensus-search-llm",
+            "name": "consensus-search-llm",
+            "input_schema": {
+                "$defs": {
+                    "ConsensusSearchParams": {
+                        "title": "ConsensusSearchParams",
+                        "type": "object",
+                        "properties": {
+                            "sjr_max": {
+                                "anyOf": [
+                                    {
+                                        "type": "integer",
+                                        "maximum": 4,
+                                        "minimum": 1
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "description": "Exclude journals in lesser quartiles, where 1 is the best quartile.",
+                                "default": null,
+                                "examples": [
+                                    2
+                                ],
+                                "title": "Sjr Max"
+                            },
+                            "study_types": {
+                                "anyOf": [
+                                    {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "description": "Only include these study types.",
+                                "default": null,
+                                "examples": [
+                                    "case report"
+                                ],
+                                "title": "Study Types"
+                            },
+                            "semantic_score_threshold": {
+                                "anyOf": [
+                                    {
+                                        "type": "number",
+                                        "minimum": 0
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "description": "Exclude report which has below semantic score",
+                                "default": 2,
+                                "examples": [
+                                    1
+                                ],
+                                "title": "Semantic Score Threshold"
+                            },
+                            "year_min": {
+                                "anyOf": [
+                                    {
+                                        "type": "integer",
+                                        "minimum": 0
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "description": "Exclude papers before this year.",
+                                "default": null,
+                                "examples": [
+                                    2018
+                                ],
+                                "title": "Year Min"
+                            },
+                            "human": {
+                                "anyOf": [
+                                    {
+                                        "type": "boolean"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "description": "Only include human studies.",
+                                "default": null,
+                                "examples": [
+                                    false
+                                ],
+                                "title": "Human"
+                            },
+                            "include_semantic_score": {
+                                "anyOf": [
+                                    {
+                                        "type": "boolean"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "description": "Includes semantic score of the report",
+                                "default": true,
+                                "examples": [
+                                    true
+                                ],
+                                "title": "Include Semantic Score"
+                            },
+                            "year_max": {
+                                "anyOf": [
+                                    {
+                                        "type": "integer",
+                                        "minimum": 0
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "description": "Exclude papers after this year.",
+                                "default": null,
+                                "examples": [
+                                    2022
+                                ],
+                                "title": "Year Max"
+                            },
+                            "sample_size_min": {
+                                "anyOf": [
+                                    {
+                                        "type": "integer",
+                                        "minimum": 0
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "description": "Exclude studies with smaller sample sizes.",
+                                "default": null,
+                                "examples": [
+                                    2
+                                ],
+                                "title": "Sample Size Min"
+                            }
+                        }
+                    }
+                },
+                "title": "SkillRequest",
+                "type": "object",
+                "properties": {
+                    "thread_id": {
+                        "title": "Thread Id",
+                        "type": "string"
+                    },
+                    "user_query": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "User's query; optional unless required by the skill",
+                        "default": null,
+                        "title": "User Query"
+                    },
+                    "agent_id": {
+                        "title": "Agent Id",
+                        "type": "string"
+                    },
+                    "query_params": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/$defs/ConsensusSearchParams"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "default": null
+                    },
+                    "query": {
+                        "title": "Query",
+                        "type": "string"
+                    },
+                    "correlation_id": {
+                        "title": "Correlation Id",
+                        "type": "string"
+                    },
+                    "client_id": {
+                        "title": "Client Id",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "query",
+                    "client_id",
+                    "thread_id",
+                    "agent_id",
+                    "correlation_id"
+                ]
+            },
+            "owner_contact": "Kenneth.Jeckell@pfizer.com",
+            "created_at_epoch": 1758041148,
+            "region": "us-east-1",
+            "description": "consensus is an academic search engine, powered by ai, but grounded in scientific research. purpose-built search technology to surface the most relevant papers. it synthesizes both topic-level and paper-level insights. everything is connected to real research papers",
+            "skill_id": "e06c319e-b305-5557-9b6a-acf02f4aa4f0",
+            "tags": [
+                "llm",
+                "consensus-search-llm",
+                "consensus search llm",
+                "consensus",
+                "consensus ai",
+                "academic search engine",
+                "grounded in science",
+                "scientific research",
+                "research papers"
+            ],
+            "output_schema": {
+                "$defs": {
+                    "ConsensusToolResponse": {
+                        "title": "ConsensusToolResponse",
+                        "type": "object",
+                        "properties": {
+                            "output": {
+                                "title": "Output",
+                                "anyOf": [
+                                    {
+                                        "type": "object"
+                                    },
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null
+                            }
+                        }
+                    },
+                    "UsageMetadata": {
+                        "title": "UsageMetadata",
+                        "type": "object",
+                        "properties": {
+                            "completion_tokens": {
+                                "title": "Completion Tokens",
+                                "type": "integer",
+                                "default": 0
+                            },
+                            "prompt_tokens": {
+                                "title": "Prompt Tokens",
+                                "type": "integer",
+                                "default": 0
+                            },
+                            "request_counts": {
+                                "title": "Request Counts",
+                                "type": "integer",
+                                "default": 0
+                            },
+                            "api_vendor": {
+                                "title": "Api Vendor",
+                                "type": "string",
+                                "default": null
+                            },
+                            "api_operation": {
+                                "title": "Api Operation",
+                                "type": "string",
+                                "default": null
+                            },
+                            "total_tokens": {
+                                "title": "Total Tokens",
+                                "type": "integer",
+                                "default": 0
+                            },
+                            "embedding_tokens": {
+                                "title": "Embedding Tokens",
+                                "type": "integer",
+                                "default": 0
+                            }
+                        }
+                    }
+                },
+                "title": "SkillResponse",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/$defs/ConsensusToolResponse"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "default": null
+                    },
+                    "message": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "usage_metadata": {
+                        "allOf": [
+                            {
+                                "$ref": "#/$defs/UsageMetadata"
+                            }
+                        ],
+                        "default": null
+                    },
+                    "success": {
+                        "title": "Success",
+                        "type": "boolean",
+                        "default": false
+                    }
+                },
+                "required": [
+                    "message"
+                ]
+            },
+            "type": "node",
+            "lambda_arn": "arn:aws:lambda:us-east-1:420737321821:function:dev-vox-agent-skill-consensus-search-llm:22"
+        }
+    ]
+}

@@ -1,29 +1,34 @@
+from abc import ABC, abstractmethod
+class Shape(ABC):
+    @abstractmethod
+    def area(self):
+        pass
+    
+    @abstractmethod
+    def perimeter(self):
+        pass
 
-class Student:
-    college = "ROOKIES"
-    
-    def __init__(self, name, age, marks):
-        self.name = name
-        self.age = age
-        self.marks = marks
-    
-    def printDetails(self):
-        return f"Name: {self.name}, Age: {self.age}, Marks: {self.marks}, College: {self.college}"
 
-    def printMarks(self):
-        return f"Marks: {self.marks}"
-    
-    @classmethod
-    def changeCollege(cls, new_college):
-        cls.college = new_college
-    
-    @staticmethod
-    def add(a, b):
-        return a + b
-    
-    
-# Instantiation - Creating an Object/Instance
-pramod = Student("Pramod", 24, 85)
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
 
-print(Student.add(2,4))
-print(pramod.add(5,6))
+    def area(self):
+        return 3.14 * self.radius * self.radius
+    
+    def perimeter(self):
+        return 2 * 3.14 * self.radius
+
+class Square(Shape):
+    def __init__(self, side):
+        self.side = side
+
+    def area(self):
+        return self.side * self.side
+    
+    def perimeter(self):
+        return 4 * self.side
+    
+    
+c = Circle(5)
+print(c.area())

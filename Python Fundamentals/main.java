@@ -1,28 +1,24 @@
-class Student{
-    String name;
-    int age;
+interface Pramod{
+    public int mobile = 1234567890;
+    void show();
+}
 
-    Student(){
-        System.out.println("Constructor called");
+interface Prajwal{
+    public int mobile = 1234567890;
+    void show();
+}
+
+class Animal implements Pramod, Prajwal{
+    Animal(){
+        System.out.println("Animal Constructor");
     }
 
-    Student(String name){
-        this.name = name;
-    }
-
-    public String getName(){
-        return name;
+    void show(){
+        System.out.println("Mobile Number: " + mobile);
     }
 }
 
-Scanner sc = new Scanner(System.in);  // 10
-
-int age = sc.nextInt();
-
-char ch = 'a'
-switch(ch){
-    case 'a': 
-        jdlfjlsd
-    case 'd':
-        dlkfjslfjds
+class Dog extends Animal{
+    super();
 }
+

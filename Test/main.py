@@ -1,4 +1,3 @@
-# main.py
 from fastapi import FastAPI
 
 # Create a FastAPI app instance
@@ -8,4 +7,3 @@ app = FastAPI()
 @app.get("/")
 def read_root():
     return {"message": "Welcome to your first FastAPI app!"}
-

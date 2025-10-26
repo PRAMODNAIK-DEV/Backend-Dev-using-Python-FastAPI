@@ -1,39 +1,29 @@
-from fastapi import FastAPI, HTTPException
+from typing import Optional
+from fastapi import FastAPI, Request
+from fastapi.params import Header
+from pydantic import BaseModel
 
 app = FastAPI()
 
-# In-memory "database"
-items = []
-
+class User(BaseModel):
+    id: int
+    name: str = "John Doe"
+    email: Optional[str] = None
+    
 @app.get("/")
-def read_root():
-    return {"message": "Welcome to the FastAPI application!"}
+def root():
+    return "Hello"
 
-@app.post("/items/")
-def create_item(item: dict):
-    items.append(item)
-    return {"message": "Item created", "item": item}
-
-@app.get("/items/")
-def read_items():
-    return {"items": items}
-
+@app.get("/items/{item_id}/{item_name}")
 @app.get("/items/{item_id}")
-def read_item(item_id: int):
-    if item_id < 0 or item_id >= len(items):
-        raise HTTPException(status_code=404, detail="Item not found")
-    return {"item": items[item_id]}
+def read_item(item_id: int, item_name: Optional[str] = None):
+    return {"item_id": item_id, "item_name": item_name}
 
-@app.put("/items/{item_id}")
-def update_item(item_id: int, new_item: dict):
-    if item_id < 0 or item_id >= len(items):
-        raise HTTPException(status_code=404, detail="Item not found")
-    items[item_id] = new_item
-    return {"message": "Item updated", "item": new_item}
+@app.get("/test")
+def test(query: str, page: int):
+    return {"query": query, "page": page}
 
-@app.delete("/items/{item_id}")
-def delete_item(item_id: int):
-    if item_id < 0 or item_id >= len(items):
-        raise HTTPException(status_code=404, detail="Item not found")
-    removed_item = items.pop(item_id)
-    return {"message": "Item deleted", "item": removed_item}
+@app.post("/user")
+def create_user(user: User, x_auth_token: str= Header(...)):
+    return {"User": user, "Headers": x_auth_token}
+

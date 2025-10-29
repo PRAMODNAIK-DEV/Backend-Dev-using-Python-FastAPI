@@ -1,7 +1,15 @@
-from fastapi import FastAPI
 
-app = FastAPI()
+from pydantic import BaseModel
 
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to your first FastAPI app!"}
+class Person(BaseModel):
+    id: int
+    name: str = "John Doe"
+    email: str = None
+    
+
+p = Person(id="1", email="123", name="Alice")
+print(p)
+
+
+def add(a: int, b: int) -> int:
+    return a + b

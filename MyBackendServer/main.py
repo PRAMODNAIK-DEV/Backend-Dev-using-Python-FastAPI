@@ -84,33 +84,33 @@ def get_items(item_id: int, name: str = None, age: int = None, test: int = None)
 
 # select * from items where item_id=item_id and test_id=2 and sub_id='abc';
 
-# @app.get("/items/")
-# def get_items():
-#     return {"items": items}
+@app.get("/items/")
+def get_items():
+    return {"items": items}
 
-# @app.get("/items/{item_id}")
-# def read_one_item(item_id: int):
-#     # if 0 >= item_id < len(items):
-#     if item_id >= 0 and item_id < len(items):
-#         return {"item": items[item_id]}
-#     raise HTTPException(status_code=404, detail="Item not found")
+@app.get("/items/{item_id}")
+def read_one_item(item_id: int):
+    # if 0 >= item_id < len(items):
+    if item_id >= 0 and item_id < len(items):
+        return {"item": items[item_id]}
+    raise HTTPException(status_code=404, detail="Item not found")
 
-# @app.post("/items/")
-# def create_item(new_item: dict):
-#     items.append(new_item)
-#     return {"message": "Item created successfully", "item": new_item}
+@app.post("/items/")
+def create_item(new_item: dict):
+    items.append(new_item)
+    return {"message": "Item created successfully", "item": new_item}
     
 
-# @app.put("/items/{item_id}")
-# def replace_item(item_id: int, updated_data: dict):
-#     if item_id >= 0 and item_id < len(items):
-#         items[item_id] = updated_data
-#         return {"message": "Item updated successfully", "item": items[item_id]}
-#     raise HTTPException(status_code=404, detail="Item not found")
+@app.put("/items/{item_id}")
+def replace_item(item_id: int, updated_data: dict):
+    if item_id >= 0 and item_id < len(items):
+        items[item_id] = updated_data
+        return {"message": "Item updated successfully", "item": items[item_id]}
+    raise HTTPException(status_code=404, detail="Item not found")
 
-# @app.delete("/items/{item_id}")
-# def remove_item(item_id: int):
-#     if item_id>=0 and item_id <len(items):
-#         deleted_item = items.pop(item_id)
-#         return {"message": "Item deleted successfully", "item": deleted_item}
-#     raise HTTPException(status_code=404, detail="Item not found")
+@app.delete("/items/{item_id}")
+def remove_item(item_id: int):
+    if item_id>=0 and item_id <len(items):
+        deleted_item = items.pop(item_id)
+        return {"message": "Item deleted successfully", "item": deleted_item}
+    raise HTTPException(status_code=404, detail="Item not found")

@@ -7,7 +7,7 @@ app = FastAPI()
 
 items = []
 
-@app.get("/abc/123/test/uts")
+@app.get("/abc")
 def root_endpoint():
     return {"message": "Hello, World!"}
 
